@@ -14,28 +14,6 @@ class OrderDao extends BaseDao
         return $this->insert("order", $order);  // Insert order
     }
 
-    public function count_orders_paginated($search)
-    {
-        $query = "SELECT COUNT(*) AS count
-                  FROM `order` 
-                  WHERE userId LIKE CONCAT('%', :search, '%')
-                  OR paymentId LIKE CONCAT('%', :search, '%');";
-
-        return $this->query_unique($query, ["search" => $search]);
-    }
-
-    public function get_orders_paginated($offset, $limit, $search, $order_column, $order_direction)
-    {
-        $query = "SELECT * 
-                  FROM `order` 
-                  WHERE userId LIKE CONCAT('%', :search, '%')
-                  OR paymentId LIKE CONCAT('%', :search, '%')
-                  ORDER BY {$order_column} {$order_direction}
-                  LIMIT {$offset}, {$limit};";
-
-        return $this->query($query, ["search" => $search]);
-    }
-
     public function delete_order($id)
     {
         $query = "DELETE FROM `order` WHERE id = :id";

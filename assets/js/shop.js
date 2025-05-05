@@ -16,14 +16,18 @@ const product = {
   price: 100.99,
 };
 
-if (confirm("Are you sure")) {
-  RestClient.post("add_product.php?id=40", product, function (data) {
-    console.log("ADDED ", data);    //ako ima id onda ce da editati na ove info iznad(sav info) a ako nema onda ga samo adda u tabelu (id=39)
-  });
-}
+RestClient.get("get_orders.php", (data) => {
+  console.log("ORDERS", data);
+});
 
-if (confirm("delete?")) {
-  RestClient.delete("delete_product.php?id=41", function (data) {
-    console.log("DELETED", data);
-  });
-}
+// if (confirm("Are you sure")) {
+//   RestClient.post("add_product.php?id=40", product, function (data) {
+//     console.log("ADDED ", data);    //ako ima id onda ce da editati na ove info iznad(sav info) a ako nema onda ga samo adda u tabelu (id=39)
+//   });
+// }
+
+// if (confirm("delete?")) {
+//   RestClient.delete("delete_product.php?id=41", function (data) {
+//     console.log("DELETED", data);
+//   });
+// }

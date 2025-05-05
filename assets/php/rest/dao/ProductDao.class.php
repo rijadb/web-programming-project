@@ -65,7 +65,7 @@ class ProductDao extends BaseDao
          price = :price
         WHERE id = :id;";
 
-        $this->execute(
+        $result = $this->execute(
             $query,
             [
                 "name" => $product["name"],
@@ -78,6 +78,8 @@ class ProductDao extends BaseDao
                 "id" => $id
             ]
         );
+
+        return $result;
     }
 
     public function get_all_products()
