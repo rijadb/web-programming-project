@@ -6,6 +6,7 @@ const cartTotal = document.querySelector(".cart-total");
 const cartItemCount = document.querySelector(".cart-item_count");
 const cartBody = document.querySelector(".cart_body");
 
+
 $("document").ready(() => {
   // fetchCartData("../assets/json/cart.json");
 
@@ -62,6 +63,7 @@ renderItems = (cartDataArray) => {
 
     item.classList.add("row");
     item.innerHTML = `
+
         <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
             <!-- Image -->
             <div
@@ -88,11 +90,13 @@ renderItems = (cartDataArray) => {
             <p><strong>${instance.name}</strong></p>
             <p>Quantity: <span><strong>${instance.quantity}</strong></span></p>
             <p>Size: <strong>${instance.size}</strong></p>
+            
             <p>Total: <strong>$<span>${(
               instance.quantity * instance.price
             ).toFixed(
               2
             )}</span></strong></p> <!-- toFixed rounda na dvije decimale -->
+
             <button
             type="button"
             class="btn btn-primary btn-sm me-1 mb-2"
@@ -121,3 +125,4 @@ removeItem = (button) => {
   // button in this case refers to the button we specified in the onClick attribute onClick=removeItem(this)
   $(button).closest(".row").remove();
 };
+

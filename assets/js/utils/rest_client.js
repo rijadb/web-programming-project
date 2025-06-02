@@ -3,6 +3,7 @@ var RestClient = {
     $.ajax({
       url: Constants.get_api_base_url() + url,
       type: "GET",
+
       beforeSend: function (xhr) {
         if (Utils.get_from_localstorage("user")) {
           xhr.setRequestHeader(
@@ -11,6 +12,7 @@ var RestClient = {
           );
         }
       },
+
       success: function (response) {
         if (callback) callback(response);
       },
@@ -24,6 +26,7 @@ var RestClient = {
       url: Constants.get_api_base_url() + url,
       type: method,
       data: data,
+
       beforeSend: function (xhr) {
         if (Utils.get_from_localstorage("user")) {
           xhr.setRequestHeader(
@@ -32,6 +35,7 @@ var RestClient = {
           );
         }
       },
+
       success: function (response) {
         if (callback) callback(response);
       },

@@ -2,6 +2,7 @@
 
 require "vendor/autoload.php";
 
+
 require "rest/routes/middleware_routes.php";
 
 require "rest/routes/auth_routes.php";
@@ -10,11 +11,13 @@ require "rest/routes/cart_routes.php";
 require "rest/routes/payment_routes.php";
 require "rest/routes/product_routes.php";
 require "rest/routes/order_routes.php";
+
 // require "rest/routes/get_products.php";
 
 Flight::route("GET /hello", function () {
     echo "HELLO";
 });
+
 
 
 Flight::route('OPTIONS *', function () {
@@ -30,5 +33,6 @@ Flight::before('start', function (&$params, &$output) {
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
     header("Access-Control-Allow-Headers: Content-Type, Authorization");
 });
+
 
 Flight::start();

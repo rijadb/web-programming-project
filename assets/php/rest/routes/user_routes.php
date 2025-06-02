@@ -97,21 +97,17 @@ Flight::group("/users", function () {
      * )
      */
     Flight::route("POST /add", function () {
-        try {
-            $payload = Flight::request()->data->getData();
 
-            if (empty($payload["firstName"])) {
-                Flight::halt(400, json_encode(["error" => "Invalid input: firstName is required"]));
-            }
+        $payload = Flight::request()->data->getData();
 
-            $user = Flight::get("user_service")->add_user($payload);
-
-            Flight::json(["message" => "You have successfully added a user", "data" => $user, "payload" => $payload]);
-        } catch (Exception $ex) {
-            Flight::json(["error" => $ex->getMessage()], 500);
+        if ($payload["firstName"] == NULL || $payload["firstName"] == "") {
+            Flight::halt(500, "Invalid input");
         }
-    });
 
+        $user = Flight::get("user_service")->add_user($payload);
+
+        Flight::json(["message" => "You have successfully added a user", "data" => $user, "payload" => $payload]);
+    });
 
     /**
      * @OA\Get(
