@@ -6,62 +6,64 @@ const cartTotal = document.querySelector(".cart-total");
 const cartItemCount = document.querySelector(".cart-item_count");
 const cartBody = document.querySelector(".cart_body");
 
-$("document").ready( () => {
-    // fetchCartData("../assets/json/cart.json");
 
-    if(Utils.get_from_localstorage("user")) {
-        var user_id = parseInt(Utils.get_localstorage_user_value("id"));
-        // var user_id = 5;
+$("document").ready(() => {
+  // fetchCartData("../assets/json/cart.json");
 
-        // fetchCartData(Constants.API_BASE_URL + `cart_products/${user_id}`);
-        RestClient.get(`cart_products/user/${user_id}`, function(data) {
-            console.log("Data fetched: ", data);
+  if (Utils.get_from_localstorage("user")) {
+    var user_id = parseInt(Utils.get_localstorage_user_value("id"));
+    // var user_id = 5;
 
-            data.forEach(instance => {
-                cartData.push(instance);
-                itemCount++;
-                //console.log("FETCHED DATA = ", fetchedData)
-            })
-            console.log("Data added to cartData: ", cartData);
-            // da nam po defaultu rendera iteme cim udjemo na site
-            renderItems(cartData);
-            cartItemCount.innerHTML = itemCount;
-            });
-    } else {
-        alert("You are not logged in!");
-    }
+    // fetchCartData(Constants.API_BASE_URL + `cart_products/${user_id}`);
+    RestClient.get(`cart_products/user/${user_id}`, function (data) {
+      console.log("Data fetched: ", data);
 
-    // fetchCartData(Constants.API_BASE_URL + "cart_products/${}");
-})
+      data.forEach((instance) => {
+        cartData.push(instance);
+        itemCount++;
+        //console.log("FETCHED DATA = ", fetchedData)
+      });
+      console.log("Data added to cartData: ", cartData);
+      // da nam po defaultu rendera iteme cim udjemo na site
+      renderItems(cartData);
+      cartItemCount.innerHTML = itemCount;
+    });
+  } else {
+    alert("You are not logged in!");
+  }
+
+  // fetchCartData(Constants.API_BASE_URL + "cart_products/${}");
+});
 
 fetchCartData = (dataUrl) => {
-    $.get(dataUrl, (data) => {
-        console.log("Data fetched: ", data);
+  $.get(dataUrl, (data) => {
+    console.log("Data fetched: ", data);
 
-        data.forEach(instance => {
-            cartData.push(instance);
-            itemCount++;
-            //console.log("FETCHED DATA = ", fetchedData)
-        })
-        console.log("Data added to cartData: ", cartData);
-        // da nam po defaultu rendera iteme cim udjemo na site
-        renderItems(cartData);
-        cartItemCount.innerHTML = itemCount;
+    data.forEach((instance) => {
+      cartData.push(instance);
+      itemCount++;
+      //console.log("FETCHED DATA = ", fetchedData)
     });
-} 
+    console.log("Data added to cartData: ", cartData);
+    // da nam po defaultu rendera iteme cim udjemo na site
+    renderItems(cartData);
+    cartItemCount.innerHTML = itemCount;
+  });
+};
 
 renderItems = (cartDataArray) => {
-    cartDataArray.forEach(async instance => {
-        let item = document.createElement("div");
+  cartDataArray.forEach(async (instance) => {
+    let item = document.createElement("div");
 
-        //let productInfo = await fetchDataWithId(instance.productId, "./assets/json/products.json");
-        //console.log("Item info: ", productInfo);
+    //let productInfo = await fetchDataWithId(instance.productId, "./assets/json/products.json");
+    //console.log("Item info: ", productInfo);
 
-        cartTotalPrice += (instance.quantity * instance.price);
-        //console.log("cartTotalPrice: ", cartTotalPrice);
+    cartTotalPrice += instance.quantity * instance.price;
+    //console.log("cartTotalPrice: ", cartTotalPrice);
 
-        item.classList.add("row");
-        item.innerHTML = `
+    item.classList.add("row");
+    item.innerHTML = `
+
         <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
             <!-- Image -->
             <div
@@ -88,7 +90,13 @@ renderItems = (cartDataArray) => {
             <p><strong>${instance.name}</strong></p>
             <p>Quantity: <span><strong>${instance.quantity}</strong></span></p>
             <p>Size: <strong>${instance.size}</strong></p>
-            <p>Total: <strong>$<span>${(instance.quantity * instance.price).toFixed(2)}</span></strong></p> <!-- toFixed rounda na dvije decimale -->
+            
+            <p>Total: <strong>$<span>${(
+              instance.quantity * instance.price
+            ).toFixed(
+              2
+            )}</span></strong></p> <!-- toFixed rounda na dvije decimale -->
+
             <button
             type="button"
             class="btn btn-primary btn-sm me-1 mb-2"
@@ -103,18 +111,18 @@ renderItems = (cartDataArray) => {
         <hr class="my-4" />
         `;
 
-        cartBody.append(item);
-        
-        cartTotal.innerHTML = cartTotalPrice;
-    });
+    cartBody.append(item);
 
-    
-    // console.log("Cart total price while adding: ", cartTotalPrice);
-    // cartTotal.innerHTML = cartTotalPrice;
-}
+    cartTotal.innerHTML = cartTotalPrice;
+  });
+
+  // console.log("Cart total price while adding: ", cartTotalPrice);
+  // cartTotal.innerHTML = cartTotalPrice;
+};
 
 removeItem = (button) => {
-    console.log("REMOVE");
-    // button in this case refers to the button we specified in the onClick attribute onClick=removeItem(this)
-    $(button).closest(".row").remove();
-}
+  console.log("REMOVE");
+  // button in this case refers to the button we specified in the onClick attribute onClick=removeItem(this)
+  $(button).closest(".row").remove();
+};
+

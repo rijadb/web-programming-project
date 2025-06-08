@@ -1,18 +1,10 @@
+const API_BASE_URL = "http://localhost/RikiClothing/rest/routes/";
+
 var RestClient = {
   get: function (url, callback, error_callback) {
     $.ajax({
       url: Constants.get_api_base_url() + url,
       type: "GET",
-
-      beforeSend: function (xhr) {
-        if (Utils.get_from_localstorage("user")) {
-          xhr.setRequestHeader(
-            "Authentication",
-            JSON.parse(Utils.get_from_localstorage("user")).token
-          );
-        }
-      },
-
       success: function (response) {
         if (callback) callback(response);
       },
@@ -26,16 +18,6 @@ var RestClient = {
       url: Constants.get_api_base_url() + url,
       type: method,
       data: data,
-
-      beforeSend: function (xhr) {
-        if (Utils.get_from_localstorage("user")) {
-          xhr.setRequestHeader(
-            "Authentication",
-            JSON.parse(Utils.get_from_localstorage("user")).token
-          );
-        }
-      },
-
       success: function (response) {
         if (callback) callback(response);
       },

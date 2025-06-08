@@ -97,6 +97,7 @@ Flight::group("/users", function () {
      * )
      */
     Flight::route("POST /add", function () {
+
         $payload = Flight::request()->data->getData();
 
         if ($payload["firstName"] == NULL || $payload["firstName"] == "") {
