@@ -1,5 +1,7 @@
 <?php
 
+//zbog pull requesta
+
 require_once __DIR__ . '/BaseDao.class.php';
 
 class UserDao extends BaseDao
@@ -40,25 +42,38 @@ class UserDao extends BaseDao
 
     public function add_user($user)
     {
+        if (empty($user["firstName"]) || empty($user["lastName"]) || empty($user["email"]) || empty($user["pwd"])) {
+            throw new Exception("All fields are required.");
+        }
+
+        if (!filter_var($user["email"], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Invalid email format.");
+        }
+
+        if ($this->get_user_by_email($user["email"])) {
+            throw new Exception("Email already registered.");
+        }
+
+        $hashedPwd = password_hash($user["pwd"], PASSWORD_DEFAULT);
+
         $query = "INSERT INTO user(firstName, lastName, email, pwd) VALUES(:firstName, :lastName, :email, :pwd);";
-        $statement = $this->connection->prepare($query);
-        $statement->execute([
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute([
             "firstName" => $user["firstName"],
             "lastName" => $user["lastName"],
             "email" => $user["email"],
-            "pwd" => $user["pwd"]
+            "pwd" => $hashedPwd
         ]);
 
+        $userId = $this->connection->lastInsertId();
 
-        $query_user_id = "SELECT id FROM user ORDER BY id DESC LIMIT 1;";
-        $fetched_user_id = $this->query($query_user_id, []);
-
-        $cart_query = "INSERT INTO cart(userId) VALUES(:userId);";
+        $cart_query = "INSERT INTO cart(userId) VALUES(:userId)";
         $cart_stmt = $this->connection->prepare($cart_query);
-        $cart_stmt->execute(["userId" => $fetched_user_id[0]["id"]]);
+        $cart_stmt->execute(["userId" => $userId]);
 
         return $user;
     }
+
 
     public function get_all_users()
     {
